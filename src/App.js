@@ -1,11 +1,32 @@
 import { useState } from 'react';
-import NFCReader from './NFCReader';
+import { NFCReader }  from './components/NFCReader.js';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
 
 const App = () => {
   const [nfcTag, setNfcTag] = useState(null);
+  const { publicKey, connect, connected } = useWallet();
+
+  // Initialize the Phantom and Solflare wallet adapters
+  const phantomWalletAdapter = new PhantomWalletAdapter();
+  const solflareWalletAdapter = new SolflareWalletAdapter();
+  
 
   const handleTagDetected = (tag) => {
+    // Store the detected NFC tag in the state.
     setNfcTag(tag);
+  };
+
+  // const [hasSpecificNFT, setHasSpecificNFT] = useState(false);
+
+
+  const handleConnectWallet = async () => {
+    try {
+      // Add the wallet adapters to the available adapters
+      connect({ wallets: [phantomWalletAdapter, solflareWalletAdapter] });
+    } catch (error) {
+      console.error('Failed to connect wallet:', error);
+    }
   };
 
   const handlePayment = () => {

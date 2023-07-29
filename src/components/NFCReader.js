@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import NFC from 'react-nfc';
+import { NFC }  from 'react-nfc';
 
 export const NFCReader = ({ onTagDetected }) => {
   const [isNFCSupported, setNFCSupported] = useState(true);
